@@ -1,9 +1,9 @@
 Name "Compressibility"
 OutFile "FiddlerCompressibilityAddon.exe"
-
 Icon "addon.ico"
+
+RequestExecutionLevel "user"
 SetCompressor /solid lzma
-RequestExecutionLevel "admin"
 XPStyle on
 
 !DEFINE /file VER_ADDON Addon.ver
@@ -13,27 +13,24 @@ BrandingText "[${NOW}] v${VER_ADDON}"
 VIProductVersion "${VER_ADDON}"
 VIAddVersionKey "FileVersion" "${VER_ADDON}"
 VIAddVersionKey "ProductName" "Fiddler Compressibility Addon"
-VIAddVersionKey "Comments" "https://www.fiddler2.com/"
-VIAddVersionKey "LegalCopyright" "©2016 Eric Lawrence"
-VIAddVersionKey "CompanyName" "Bayden Systems"
+VIAddVersionKey "Comments" "https://textslashplain.com/2016/01/27/automatically-evaluating-compressibility/"
+VIAddVersionKey "LegalCopyright" "©2019 Eric Lawrence"
+VIAddVersionKey "CompanyName" "Eric Lawrence"
 VIAddVersionKey "FileDescription" "Installer for Fiddler Compressibility Addon"
 
-InstallDir "$PROGRAMFILES\Fiddler2\Scripts"
-InstallDirRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Fiddler2" "LMScriptPath"
-;DirShow hide
+InstallDir "$DOCUMENTS\Fiddler2\scripts\"
 
-Section "Main" ; (default section)
+Section "Main"
 SetOutPath "$INSTDIR"
 
 SetOverwrite on
 File "..\Bin\Release\Compressibility.dll"
 SetOverwrite ifnewer
 
-SetOutPath "$INSTDIR\..\Tools\"
+SetOutPath "$INSTDIR\Tools\"
 File "C:\program Files (x86)\fiddler2\tools\brotli.exe"
 File "C:\program Files (x86)\fiddler2\tools\zopfli.exe"
 File "C:\program Files (x86)\fiddler2\tools\cwebp.exe"
-
 
 WriteRegStr HKCU "Software\Microsoft\Fiddler2\ImagesMenuExt\To&WebP Lossless" "Command" "$INSTDIR\..\Tools\cwebp.exe"
 WriteRegStr HKCU "Software\Microsoft\Fiddler2\ImagesMenuExt\To&WebP Lossless" "Options" "<stderr>"
@@ -43,7 +40,6 @@ WriteRegStr HKCU "Software\Microsoft\Fiddler2\ImagesMenuExt\ToWebP &Lossy" "Comm
 WriteRegStr HKCU "Software\Microsoft\Fiddler2\ImagesMenuExt\ToWebP &Lossy" "Options" "<stderr>"
 WriteRegStr HKCU "Software\Microsoft\Fiddler2\ImagesMenuExt\ToWebP &Lossy" "Parameters" '-m 6 "{in}" -o "{out:webp}"'
 
-
-MessageBox MB_OK "Addon Installed Successfully$\n$\nRestart Fiddler and click View > Tabs to show the 'Compressibility' tab."
+MessageBox MB_OK "Installed Successfully$\n$\nRestart Fiddler and click View > Tabs to show the 'Compressibility' tab."
 
 SectionEnd ; end of default section

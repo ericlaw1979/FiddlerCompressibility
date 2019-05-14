@@ -6,13 +6,13 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Compressibility")]
-[assembly: AssemblyCopyright("Copyright ©2016 Eric Lawrence")]
+[assembly: AssemblyCopyright("Copyright ©2019 Eric Lawrence")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 [assembly: System.Resources.NeutralResourcesLanguage("en-US")]
 [assembly: Fiddler.RequiredVersion("4.6.2.0")]
-[assembly: AssemblyVersion("1.0.2.0")]
+[assembly: AssemblyVersion("1.0.4.0")]
 
 
 /* -= PREFERENCES =-
@@ -24,6 +24,9 @@ using System.Runtime.InteropServices;
  FiddlerApplication.Prefs.GetStringPref("extensions.compressibility.WebPLossy.Args", "-m 6");
  FiddlerApplication.Prefs.GetBoolPref("extensions.compressibility.SkipAudioVideo", true))
 */
+
+// 1.0.4.0 
+// Update installer to install to per-user location
 
 // 1.0.2.0 [Ship 2/19/2016]
 // Add CTRL+C to copy rows
