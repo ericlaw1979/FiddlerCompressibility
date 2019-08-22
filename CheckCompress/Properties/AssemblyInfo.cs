@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 [assembly: System.Resources.NeutralResourcesLanguage("en-US")]
 [assembly: Fiddler.RequiredVersion("4.6.2.0")]
-[assembly: AssemblyVersion("1.0.4.0")]
+[assembly: AssemblyVersion("1.1.0.0")]
 
 
 /* -= PREFERENCES =-
@@ -24,6 +24,11 @@ using System.Runtime.InteropServices;
  FiddlerApplication.Prefs.GetStringPref("extensions.compressibility.WebPLossy.Args", "-m 6");
  FiddlerApplication.Prefs.GetBoolPref("extensions.compressibility.SkipAudioVideo", true))
 */
+
+// 1.1.0.0
+// Update code to actually look for tools in per-user location (doh!)
+// Show warning in Log and footer if a tool is missing
+// Remove PNGDistill and Brotli from installer now that Fiddler carries these.
 
 // 1.0.4.0 
 // Update installer to install to per-user location

@@ -1,6 +1,4 @@
-﻿// TODO: Support files from disk
-// TODO: Support pngdistill
-// TODO: Support cwebp
+﻿// TODO: Support direct drag/drop of files from disk
 using Fiddler;
 using System;
 using System.Collections;
@@ -16,6 +14,14 @@ namespace CheckCompress
 {
     public partial class CCUI : UserControl
     {
+        // This extension installs this one.
+        static readonly string sCWebPPath = CONFIG.GetPath("Scripts") + "tools\\cwebp.exe";
+
+        // Fiddler should include all of these.
+        static readonly string sZopfliPath = CONFIG.GetPath("Tools") + "zopfli.exe";
+        static readonly string sBrotliPath = CONFIG.GetPath("Tools") + "brotli.exe";
+        static readonly string sPNGDistillPath = CONFIG.GetPath("Tools") + "pngdistill.exe";
+
         bool bSuppressUpdates = false;
 
         /// <summary>
@@ -34,6 +40,16 @@ namespace CheckCompress
             FiddlerApplication.Prefs.AddWatcher("fiddler.ui.font.size", OnPrefChange);
 
             MAX_ZOPFLI_SIZE = (uint)FiddlerApplication.Prefs.GetInt32Pref("extensions.compressibility.Zopfli.MaxSize", (int)MAX_ZOPFLI_SIZE);
+
+            foreach (string sPath in new[]{sCWebPPath, sZopfliPath, sBrotliPath, sPNGDistillPath})
+            {
+                if (!File.Exists(sPath))
+                {
+                    string sErr = String.Format("missing a required tool: {0}", sPath);
+                    FiddlerApplication.Log.LogString("!Compressibility extension is " + sErr);
+                    this.txtInfo.Text = sErr;
+                }
+            }
         }
 
         private void OnPrefChange(object sender, PrefChangeEventArgs oPCE)
@@ -116,28 +132,25 @@ namespace CheckCompress
         private void lvQueue_DragDrop(object sender, DragEventArgs e)
         {
             Session[] oSessions = (Session[])e.Data.GetData("Fiddler.Session[]");
-            if ((oSessions == null) || (oSessions.Length < 1)) { Debug.Assert(false, "Unexpected drop type."); return; }
-            AddSessionsToUI(oSessions);
-
-            /*  TODO: Support files from disk
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                string[] arrDroppedFiles = (string[])e.Data.GetData("FileDrop", false);
-                foreach (string sFilename in arrDroppedFiles)
+            if ((oSessions == null) || (oSessions.Length < 1)) {
+                Debug.Assert(false, "Unexpected drop type.");
+                return;
+                /*  TODO: Support files from disk
+                if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 {
-                    if (sFilename.EndsWith(".saz", StringComparison.OrdinalIgnoreCase))
+                    string[] arrDroppedFiles = (string[])e.Data.GetData("FileDrop", false);
+                    foreach (string sFilename in arrDroppedFiles)
                     {
-                        oDroppedSessions = Utilities.ReadSessionArchive(sFilename, true);
+                        if (sFilename.EndsWith(".saz", StringComparison.OrdinalIgnoreCase))
+                        {
+                            oDroppedSessions = Utilities.ReadSessionArchive(sFilename, true);
+                        }
                     }
-                }
-                e.Effect = DragDropEffects.Copy;
-            }*/
+                    e.Effect = DragDropEffects.Copy;
+                }*/
+            }
+            AddSessionsToUI(oSessions);
         }
-
-        static readonly string sZopfliPath = CONFIG.GetPath("Tools") + "zopfli.exe";
-        static readonly string sBrotliPath = CONFIG.GetPath("Tools") + "brotli.exe";
-        static readonly string sCWebPPath = CONFIG.GetPath("Tools") + "cwebp.exe";
-        static readonly string sPNGDistillPath = CONFIG.GetPath("Tools") + "pngdistill.exe";
 
         /// <summary>
         /// Use Google's ZopFli compressor for compression instead of the default compressor

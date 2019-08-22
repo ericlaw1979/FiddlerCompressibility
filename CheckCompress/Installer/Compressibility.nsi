@@ -27,16 +27,15 @@ SetOverwrite on
 File "..\Bin\Release\Compressibility.dll"
 SetOverwrite ifnewer
 
+; NB: If OutPath changes, be sure to fix up the WriteRegStr paths below too.
 SetOutPath "$INSTDIR\Tools\"
-File "C:\program Files (x86)\fiddler2\tools\brotli.exe"
-File "C:\program Files (x86)\fiddler2\tools\zopfli.exe"
-File "C:\program Files (x86)\fiddler2\tools\cwebp.exe"
+File "C:\tools\cwebp.exe"
 
-WriteRegStr HKCU "Software\Microsoft\Fiddler2\ImagesMenuExt\To&WebP Lossless" "Command" "$INSTDIR\..\Tools\cwebp.exe"
+WriteRegStr HKCU "Software\Microsoft\Fiddler2\ImagesMenuExt\To&WebP Lossless" "Command" "$INSTDIR\Tools\cwebp.exe"
 WriteRegStr HKCU "Software\Microsoft\Fiddler2\ImagesMenuExt\To&WebP Lossless" "Options" "<stderr>"
 WriteRegStr HKCU "Software\Microsoft\Fiddler2\ImagesMenuExt\To&WebP Lossless" "Parameters" '-lossless -m 6 "{in}" -o "{out:webp}"'
 
-WriteRegStr HKCU "Software\Microsoft\Fiddler2\ImagesMenuExt\ToWebP &Lossy" "Command" "$INSTDIR\..\Tools\cwebp.exe"
+WriteRegStr HKCU "Software\Microsoft\Fiddler2\ImagesMenuExt\ToWebP &Lossy" "Command" "$INSTDIR\Tools\cwebp.exe"
 WriteRegStr HKCU "Software\Microsoft\Fiddler2\ImagesMenuExt\ToWebP &Lossy" "Options" "<stderr>"
 WriteRegStr HKCU "Software\Microsoft\Fiddler2\ImagesMenuExt\ToWebP &Lossy" "Parameters" '-m 6 "{in}" -o "{out:webp}"'
 
